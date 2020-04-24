@@ -1,0 +1,214 @@
+Region & Availability Zones :AWS Resources are hosted in multiple locations world-wide,
+these locations are composed of regions and Availability Zones. 
+Each region is a separate geographic area. Each region has multiple, 
+isolated locations known as Availability Zones. 
+
+Amazon Elastic Compute Cloud (EC2): 
+===================================
+1) This Service is related to Server Configuration
+like 
+ a) " Type of Instance", 
+ b) " What type of OS we need to install",
+ c) " Where we need to Launch the server"
+ d) " Creating new volumes"
+ e) " adding/removing volumes from server" 
+ f) " Taking back of the server (Snapshot)" 
+ g) " Creating Load Balancers"
+ h) " Creating Auto Scalling" etc.
+
+
+2) We can launch EC2 instances any region. 
+ 
+To Launch an Ec2 instance below resources are required:
+=======================================================
+a) AMI
+b) Security Group
+c) Keypair
+d) Type of Instance
+
+Amazon Machine Images (AMIs) : 
+============================
+a) An AMI is a template that contains a 
+software configuration (operating system,application server and applications) that 
+can run on Amazon’s Ec2.AMIs can be used to launch an instance.
+b) AMI is specific to the region.
+c) Each AMI have its own unique ID.
+d) We can Create our own AMIs.
+
+Security Group:
+==============
+a) SG is a virtual firewall. It can be attached to the Ec2 instance.
+b) SG configration is having two parts
+    i) Inbound rules
+    ii)outbound Rules
+b) What type of requests server allows, will be configured in Inboud Rules.
+c) What type of requests server can send, will be configured in Outbound Rules.
+d) In SG we can Configure only allow rules.
+e) One security Group can be attached to Multiple Ec2 instances.
+f) One Ec2 instance can have upto max of "5" Security Groups.
+ 
+Keypair:
+=======
+a) To log in to your instance, you must create a key pair, specify the name of the 
+key pair when you launch the instance, and provide the private key when you connect 
+to the instance. 
+
+b) On a Linux instance, the public key content is placed in an entry within "~/.ssh/authorized_keys". 
+This is done at boot time and enables you to securely access your instance using 
+the private key instead of a password. 
+
+c) Keypairs are region specific.
+
+Type of Instance :
+==================
+Amazon EC2 provides a wide selection of instance types optimized to fit different use 
+cases. Instance types comprise varying combinations of CPU, memory, storage, 
+and networking capacity and give you the flexibility to choose the appropriate mix 
+of resources for your applications.
+
+Ex :
+t2.nano,t2.micro,t2.small,t2.medium,t2.large,t2.xlarge,t2.2xlarge
+
+Creating Securuty Group:
+=======================
+a) Goto EC2 DashBoard
+b) On the navigation bar select region for the Security Group
+c) Click SecurutyGrouop (NETWORK & SECURITY Sec) in the navigation pane 
+d) click on Create Security Group.
+e) Specify a name and description for the security group.
+f) choose a VPC ID to create a security group for that VPC.
+g)start adding rules.
+
+Creating Keypair:
+================
+a) Goto EC2 DashBoard
+b) On the navigation bar select region for the key pair
+c) Click Key Pairs in the navigation pane 
+d) Click Create Key Pair
+e) Enter a name for the key pair in the Key Pair Name field of the dialog box and 
+click Create
+f) The private key file, with .pem extension, will automatically be downloaded by 
+the browser. 
+
+
+Creating an Ec2 Instance:
+=========================
+a) Goto EC2 DashBoard
+b) From the navigation bar select the region for the instance
+c) From the Amazon EC2 console dashboard, click Launch Instance 
+d) Select the AMI (Ex: Ubuntu16)
+5)	Select the instance type (ex : t2.micro)
+6)	Click Next: Configure Instance Details
+7)	Click Next: Add Storage
+8)	Click Next: Add Tags
+9)	Click Next: Configure Security Group.
+10)	Click Review and Launch.Scroll down to review the AMI details, instance type, 
+and security group information, and then click Launch.
+11)	At the prompt for a key pair:Select Choose an existing key pair/NewKeyPair 
+12)Click the check box to acknowledge that you have access to the private key.
+13) Click Launch Instances.
+
+Note : 
+a) You can also attach existing SecurutyGrouop to ec2 instance.
+b) you can connect to linux ec2 instance by ssh protocal.
+
+    ssh -i "privatekeyname.pem" username@public_ip
+	
+
+Userdata (Bootstrap Scripts):
+=============================
+1) Whatever the command we write in Userdata feild,
+these commands get executed at the time server booting.
+2) Userdate can be changed on existing servers only it 
+is in "Stopped" state.
+3) We will this option to start the some services,
+to clear the exsting log files.
+4) First line of user data must be 
+   "Shebang" (#! /bin/bash), After the we can give in
+   any valid os commands.
+	
+Note : You will find "User data" feild ,In instance creation Process, 
+"Configure Instance Details" step is having
+section called "AdvancedDetailed".
+
+Terminate Ec2 instance:
+=======================
+1) Goto EC2 DashBoard
+2) Select The ec2 instance
+3) Action --> Instance State --> "Terminate"
+
+Stop Ec2 instance: If instance is in running state we can stop the instance
+==================
+1) Goto EC2 DashBoard
+2) Select The ec2 instance
+3) Action --> Instance State --> "Stop"
+
+Note: When we stop the instance  public will be removed from the instance.
+when we start the instance new public ip will be assigned to ec2 instance. 
+
+
+Reboot Ec2 instance: If instance is in running state we can "Reboot" the instance
+====================
+1) Goto EC2 DashBoard
+2) Select The ec2 instance
+3) Action --> Instance State --> "Reboot"
+
+Note: When we reboot the instance,public ip will not be changed.
+
+
+Practice:
+=========
+1) Launch an ec2 instance in Mumbai region
+2) Launch an ec2 instance in Mumbai region "ap-south-1a" AZ.
+3) Create a security group and configure inbound "ssh" & "http" rules
+4) Attach "step3" security group to "step2" ec2 instance.
+5) Stop the "step2" ec2 instance and check the public ip address.
+6) start the Ec2 instance after step5 execution,check the public ip address.
+7) Create new keypair
+8) Launch an ec2 instance using step3 "SecurityGroup" & step7 keypair
+9) Install apache2 in Ubuntu Ec2 instance  at the time of Launch.
+
+Elastic IP(EIP):
+================
+It is a dedicated public IP address which
+is reserved for your account, It can be assigned any ec2 instance in you account.
+After attaching it to ec2 instance,Even if we stop the ec2 instance this public will
+not be released from instance , It remain attached with EC2 instance.
+
+Create EIP (Reserv EIP):
+ 1) Goto EC2 dashboard
+ 2) Goto NETWORK & SECURITY sections
+ 3) Click On "Elastic IPs" 
+ 4) Click on "Allocate New Address"
+ 
+Assigning Elastic IP to Ec2 Instances
+1)  Goto EC2 dashboard
+ 2) Goto NETWORK & SECURITY sections
+ 3) Click On "Elastic IPs" 
+ 4) Click On " ACTIONS" --> "Associate Adress"
+ 5) Select the Ec2 instance
+ 
+Realese Elastic IP From Ec2 AWS account:
+=======================================
+ step1: Realese the ELASTIC ip from Instances
+     a)  Goto EC2 dashboard
+	 b) Goto NETWORK & SECURITY sections
+	 c) Click On "Elastic IPs" 
+     d) Click On " ACTIONS" --> "Disassociate Adress"
+ step 2: Realese the ELASTIC ip from Account
+   a)  Goto EC2 dashboard
+	 b) Goto NETWORK & SECURITY sections
+	 c) Click On "Elastic IPs" 
+	 d) Select Elastic Ip
+	 e)  Click On " ACTIONS" --> "Release Adress"
+ 
+Note : only five EIP can be reserved for account.
+
+Practice:
+=========
+1) Create EIP and attach it to any existind Ec2 instance.
+2) Stop the EC2 instance and check public is released or not from the Instance.
+3) Realese the EIP from EC2 instance
+4) Realese the EIP from your account. 
+
+
