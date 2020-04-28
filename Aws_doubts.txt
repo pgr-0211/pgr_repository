@@ -1,5 +1,5 @@
 1) how to import & export the instances through Terraform code?
 
 2) how to create own custom AMI through Terraform
-
+Need to know about containers
 3) what are Elastic Network interfaces(ENIs) 
